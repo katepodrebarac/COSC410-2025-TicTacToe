@@ -14,7 +14,7 @@ def _to_dto(game_id: str, gs: GameState) -> GameStateDTO:
     return GameStateDTO(
         id=game_id,
         board=gs.board,
-        current_player=gs.current_player,
+        # current_player=gs.current_player,
         winner=gs.winner,
         is_draw=gs.is_draw,
         status=status(gs),
@@ -48,11 +48,12 @@ def get_state(game_id: str) -> GameStateDTO:
 
 @router.post("/{game_id}/move", response_model=GameStateDTO)
 def make_move(game_id: str, payload: MoveRequest) -> GameStateDTO:
+    print(payload)
     gs = GAMES.get(game_id)[-1]
     if not gs:
         raise HTTPException(status_code=404, detail="Game not found.")
     try:
-        new_state = move(gs, payload.index)
+        new_state = move(gs, payload.index, payload.player)
     except (IndexError, ValueError) as e:
         raise HTTPException(status_code=400, detail=str(e))
     GAMES[game_id].append(new_state)

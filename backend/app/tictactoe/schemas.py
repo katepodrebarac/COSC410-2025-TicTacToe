@@ -10,10 +10,11 @@ class GameCreate(BaseModel):
 class GameStateDTO(BaseModel):
     id: str
     board: List[Optional[Player]]
-    current_player: Player
+    # current_player: Player
     winner: Optional[Player]
     is_draw: bool
     status: str
 
 class MoveRequest(BaseModel):
     index: int
+    player: str

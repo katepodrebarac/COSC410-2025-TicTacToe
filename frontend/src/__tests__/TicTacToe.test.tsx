@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import TicTacToe from "../components/TicTacToe";
+import App from "../App"
 
 describe("TicTacToe component (API via MSW)", () => {
   it("plays a simple game and declares winner", async () => {

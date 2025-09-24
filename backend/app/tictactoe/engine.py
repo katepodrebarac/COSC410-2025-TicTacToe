@@ -14,12 +14,11 @@ WIN_LINES: Tuple[Tuple[int, int, int], ...] = (
 @dataclass
 class GameState:
     board: List[Cell] = field(default_factory=lambda: [None] * 9)
-    current_player: Player = "X"
     winner: Optional[Player] = None
     is_draw: bool = False
 
     def copy(self) -> "GameState":
-        return GameState(self.board.copy(), self.current_player, self.winner, self.is_draw)
+        return GameState(self.board.copy(), self.winner, self.is_draw)
 
 def _check_winner(board: List[Cell]) -> Optional[Player]:
     for a, b, c in WIN_LINES:
@@ -33,7 +32,7 @@ def _is_full(board: List[Cell]) -> bool:
 def new_game() -> GameState:
     return GameState()
 
-def move(state: GameState, index: int) -> GameState:
+def move(state: GameState, index: int, player: str) -> GameState:
     if state.winner or state.is_draw:
         raise ValueError("Game is already over.")
     if not (0 <= index < 9):
@@ -42,15 +41,13 @@ def move(state: GameState, index: int) -> GameState:
         raise ValueError("Cell already occupied.")
 
     next_state = state.copy()
-    next_state.board[index] = state.current_player
+    next_state.board[index] = player
 
     w = _check_winner(next_state.board)
     if w:
         next_state.winner = w
     elif _is_full(next_state.board):
         next_state.is_draw = True
-    else:
-        next_state.current_player = "O" if state.current_player == "X" else "X"
     return next_state
 
 def available_moves(state: GameState) -> List[int]:
@@ -61,4 +58,4 @@ def status(state: GameState) -> str:
         return f"{state.winner} wins"
     if state.is_draw:
         return "draw"
-    return f"{state.current_player}'s turn"
+    return "playing"
