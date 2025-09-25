@@ -29,7 +29,7 @@ export default function TicTacToe({ boardIndex, gameKey }: Props) {
   const [error, setError] = React.useState<string | null>(null);
   const { 
     currentPlayer, 
-    handleMove, 
+    setCurrentPlayer,
     getPlayer, 
     handleReset, 
     activeBoard, 
@@ -137,9 +137,9 @@ export default function TicTacToe({ boardIndex, gameKey }: Props) {
         const nextActiveBoard = boardWinners[i] !== null ? null : i;
         setActiveBoard(nextActiveBoard);
         
-        // Use handleMove from context to switch players
+        // Switch players
         const nextPlayer = getPlayer() === "X" ? "O" : "X";
-        handleMove(nextPlayer);
+        setCurrentPlayer(nextPlayer);
       } else {
         setError("Invalid response from server.");
       }

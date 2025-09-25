@@ -7,7 +7,6 @@ type Player = "X" | "O";
 interface GameContextType {
   currentPlayer: Player;
   setCurrentPlayer: (player: Player) => void;
-  handleMove: (player: Player) => void;
   getPlayer: () => Player;
   handleReset: () => void;
   resetCount: number;
@@ -111,10 +110,6 @@ export default function App() {
     checkMetaGame();
   }, [boardWinners, metaGameId]);
 
-  function handleMove(player: Player) {
-    setCurrentPlayer(player);
-  }
-
   function getPlayer(): Player {
     return currentPlayer;
   }
@@ -142,7 +137,6 @@ function handleReset() {
   const contextValue: GameContextType = {
     currentPlayer,
     setCurrentPlayer,
-    handleMove,
     getPlayer,
     handleReset,
     resetCount,
